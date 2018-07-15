@@ -8,11 +8,13 @@ class Body extends React.Component {
     this.addNewFruit = this.addNewFruit.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
     this.deleteFruit = this.deleteFruit.bind(this)
+    this.handleUpdate = this.handleUpdate.bind(this)
+    this.updateFruit = this.updateFruit.bind(this)
   }
 
   handleFormSubmit(name, description){
     let body = JSON.stringify({fruit: {name: name, description:   description} })
-  fetch(`http://localhost:3000/api/v1/fruits`, {
+    fetch(`http://localhost:3000/api/v1/fruits`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -21,7 +23,7 @@ class Body extends React.Component {
     }).then((response) => {return response.json()})
     .then((fruit)=>{
       this.addNewFruit(fruit)
-    })
+  })
 
   }
 
@@ -50,6 +52,29 @@ class Body extends React.Component {
     })
   }
 
+
+  handleUpdate(fruit){
+    let body = JSON.stringify({fruit: fruit})
+    fetch(`http://localhost:3000/api/v1/fruits/${fruit.id}`,
+    {
+      method: 'PUT',
+      body: body,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((response) => {
+        this.updateFruit(fruit)
+      })
+  }
+
+  updateFruit(fruit){
+    let newFruits = this.state.fruits.filter((f) => f.id !== fruit.id)
+    newFruits.push(fruit)
+    this.setState({
+      fruits: newFruits
+    })
+  }
+
   componentDidMount(){
       fetch('/api/v1/fruits.json')
         .then((response) => {return response.json()})
@@ -59,7 +84,7 @@ class Body extends React.Component {
       return(
         <div>
           <NewFruit handleFormSubmit={this.handleFormSubmit}/>
-          <AllFruits fruits={this.state.fruits} handleDelete={this.handleDelete} />
+          <AllFruits fruits={this.state.fruits} handleDelete={this.handleDelete} handleUpdate={this.handleUpdate} />
 
         </div>
       )
