@@ -7,7 +7,7 @@ const NewFruit = props => {
         placeholder='Enter name of fruit' />
       <input ref={input => formFields.description = input}
         placeholder='Enter description of fruit' />
-      <button>Submit</button>
+      <button onClick={() => props.handleFormSubmit(formFields.name.value, formFields.description.value)}>Submit</button>
     </div>
     )
 }
