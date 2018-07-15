@@ -1,5 +1,6 @@
 class Api::V1::FruitsController < ActionController::Base
-
+  skip_before_action :verify_authenticity_token
+  # the above script solves the POST 422 unprocessable entity error
   def index
     render json: Fruit.all
   end
