@@ -2,7 +2,7 @@ const AllFruits = (props) => {
   let fruits = props.fruits.map((fruit) => {
         return(
           <li key={fruit.id}>
-            <Fruit fruit={fruit} handleDelete={props.handleDelete}/>
+            <Fruit fruit={fruit} handleDelete={props.handleDelete} handleUpdate={props.handleUpdate}/>
           </li>
         )
       })
